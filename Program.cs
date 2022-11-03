@@ -13,12 +13,15 @@ namespace BlogsConsole
         {
             logger.Info("Program started");
 
-                // Create and save a new Blog
-                Console.WriteLine("1.) Display all blogs");
-                Console.WriteLine("2.) Add blog");
-                Console.WriteLine("3.) Create post");
-                Console.WriteLine("4.) Display posts");
-                string input = Console.ReadLine();
+            string input = "";
+
+            do{
+            Console.WriteLine("1.) Display all blogs");
+            Console.WriteLine("2.) Add blog");
+            Console.WriteLine("3.) Create post");
+            Console.WriteLine("4.) Display posts");
+            Console.WriteLine("Press enter to quit");
+            input = Console.ReadLine();
 
                 if(input =="1"){
                     try{
@@ -48,6 +51,13 @@ namespace BlogsConsole
                         logger.Error(ex.Message);
                         }
                 }
+                if(input == "3"){
+
+                }
+                if(input == "4"){
+
+                }
+            }while (input == "1" || input == "2");
             logger.Info("Program ended");
         }
     }
