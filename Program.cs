@@ -39,7 +39,7 @@ namespace BlogsConsole
                 if (input == "2"){
                     try{
                         Console.WriteLine("Enter a name for a new Blog: ");
-                        String blogName = Console.ReadLine();
+                        string blogName = Console.ReadLine();
                         var blog = new Blog { Name = blogName };
                         var db = new BloggingContext();
                         db.AddBlog(blog);
@@ -52,7 +52,47 @@ namespace BlogsConsole
                         }
                 }
                 if(input == "3"){
+                    try{
+                        Console.Write("Enter the blog you want to post to: ");
+                        string blogName = Console.ReadLine();
 
+                        var db = new BloggingContext();
+                        int IDEntry = 0;
+
+                        try{
+                        var blogChoice = db.Blogs.First(b => b.Name == blogName);
+                        Console.WriteLine($"One blog was found with the name of \"{blogChoice.Name}\"");
+                        Console.Write("Would you like to post to this blog (Y/N): ");
+                        string wouldContinue = Console.ReadLine();
+                        if(wouldContinue.ToUpper() == "Y"){
+                            IDEntry = blogChoice.BlogId;
+                        }
+                        }
+                        catch{
+                            Console.WriteLine($"No blog found with the name of \"{blogName}\"");
+                        }
+                        try{
+                            var finalBlog = db.Blogs.First(b => b.BlogId == IDEntry);
+                            int blogID = finalBlog.BlogId;
+
+                            Console.Write("Enter the title of the post: ");
+                            string postTitle = Console.ReadLine();
+
+                            Console.Write("Enter the content of the post: ");
+                            string postContent = Console.ReadLine();
+
+                            var post = new Post{Title = postTitle, Content = postContent};
+
+                            db.AddPost(post);
+                            logger.Info("Post added - {postTitle} to {blogName}",postTitle,blogName);
+                    }
+                    catch(Exception ex){
+                        logger.Error(ex.Message);
+                    }
+                    }
+                    catch(Exception ex){
+                        logger.Error(ex.Message);
+                    }
                 }
                 if(input == "4"){
 
