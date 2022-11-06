@@ -81,7 +81,7 @@ namespace BlogsConsole
                             Console.Write("Enter the content of the post: ");
                             string postContent = Console.ReadLine();
 
-                            var post = new Post{Title = postTitle, Content = postContent};
+                            var post = new Post{Title = postTitle, Content = postContent, BlogId = blogID, Blog = finalBlog};
 
                             db.AddPost(post);
                             logger.Info("Post added - {postTitle} to {blogName}",postTitle,blogName);
@@ -95,9 +95,19 @@ namespace BlogsConsole
                     }
                 }
                 if(input == "4"){
-
+                    try{
+                        var db = new BloggingContext();
+                        var post = db.Posts;
+                        Console.WriteLine("All posts in the database:");
+                        foreach (var item in post){
+                            Console.WriteLine($"\t{item.Title} -- {item.Content}");
+                        }
+                    }
+                    catch (Exception ex){
+                        logger.Error(ex.Message);
+                    }
                 }
-            }while (input == "1" || input == "2");
+            }while (input == "1" || input == "2" || input == "3" || input == "4");
             logger.Info("Program ended");
         }
     }
